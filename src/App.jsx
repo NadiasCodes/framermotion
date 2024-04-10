@@ -1,5 +1,5 @@
-import React from "react";
-import { motion, useScroll } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useScroll, useAnimation, useInView, useTransform } from "framer-motion";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -26,6 +26,28 @@ const svgIconVariants ={
 }
 const App = () => {
   const {scrollYProgress:completionProgress} = useScroll()
+
+  const containerRef = useRef(null);
+
+  const isInView = useInView(containerRef, { once: true });
+  const mainControls = useAnimation();
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"],
+  });
+
+const paragraphOneValue= useTransform(scrollYProgress,[0,1], ["-100%", "0%"])
+const paragraphTwoValue = useTransform(scrollYProgress, [0, 1], ["100%", "0%"]);
+
+
+  useEffect(() => {
+    if (isInView) {
+      mainControls.start("visible");
+    }
+  }, [isInView]);
+
+
   return (
     <div className="flex flex-col gap-10 overflow-x-hidden">
       <motion.section variants={gridContainerVariants} initial="hidden" animate="show" className="grid grid-cols-3 p-10 gap-10">
@@ -109,6 +131,41 @@ const App = () => {
           </motion.svg>
         </motion.div>
       </motion.section>
+
+      {/* Smooth scrolling animations */}
+      <section className="flex flex-col gap-10 mb-10" ref={containerRef}>
+        <motion.h1
+          className="text-5xl tracking-wide text-slate-100 text-center"
+          animate={mainControls}
+          initial="hidden"
+          variants={{
+            hidden: {
+              opacity: 0,
+              y: 75,
+            },
+            visible: {
+              opacity: 1,
+              y: 0,
+            },
+          }}
+          transition={{ delay: 0.3 }}
+        >
+          Keep Scrolling
+        </motion.h1>
+
+        <motion.p style={{ translateX: paragraphOneValue }} className="text-slate-100 font-thin text-4xl w-1/2 mx-auto">
+          Hello! If you are reading this, it means you are discovering my portfolio. In this lesson, I learned some basic Framer Motion features! I am really excited to expand my knowledge even further. My goal is to build cool websites using all these amazing animations and styles.
+        </motion.p>
+
+        <motion.p style={{ translateX: paragraphTwoValue }} className="text-slate-100 font-thin text-4xl w-1/2 mx-auto">
+          “Develop a passion for learning. If you do, you will never cease to grow.”
+          <br /> — Anthony J. D’Angelo
+          <br />
+          <br />
+          “You don’t understand anything until you learn it more than one way.”
+          <br />— Marvin Minsky
+        </motion.p>
+      </section>
     </div>
   );
 };
