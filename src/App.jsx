@@ -43,7 +43,7 @@ const App = () => {
        </motion.div>
 
 
-        {/* Shape Shifting */}
+        {/* Shape Shifting | for repeat we can set it from infinity to 1,2,3,4 etc */}
         <motion.div 
         variants={gridSquareVariants} 
         className="bg-slate-800 aspect-square rounded-lg justify-center flex items-center gap-10">
@@ -55,13 +55,21 @@ const App = () => {
           rotate: [0,90,90,0],
           borderRadius: ["10%","10%","50%","10%"],
         }}
-        transition= {{duration:5, ease: "easeInOut", repeat: Infinity, repeatDelay:1 }} />
+        transition= {{duration:5, ease: "easeInOut", repeat: Infinity, repeatDelay:1 }} /> 
 
         </motion.div>
-        
+
+        {/* Hover and tap */}
         <motion.div 
         variants={gridSquareVariants} 
-        className="bg-slate-800 aspect-square rounded-lg justify-center flex items-center gap-10"></motion.div>
+        className="bg-slate-800 aspect-square rounded-lg justify-center flex items-center gap-10">
+
+        <motion.button 
+        whileTap={{scale: 0.9}}
+        whileHover={{scale:1.1,  backgroundColor:"#d1d5db", color:"black"}}
+        transition={{bounceDamping:10, bounceStiffness:600}}
+        className="bg-emerald-600 w-1/2 py-4 rounded-lg text-2xl text-gray-100 font-light tracking-wide">Click Me</motion.button>
+          </motion.div>
         
         <motion.div
          variants={gridSquareVariants} 
