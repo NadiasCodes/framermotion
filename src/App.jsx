@@ -71,9 +71,25 @@ const App = () => {
         className="bg-emerald-600 w-1/2 py-4 rounded-lg text-2xl text-gray-100 font-light tracking-wide">Click Me</motion.button>
           </motion.div>
         
+
+       {/* Drag */}
+
         <motion.div
          variants={gridSquareVariants} 
-         className="bg-slate-800 aspect-square rounded-lg justify-center flex items-center gap-10"></motion.div>
+         className="bg-slate-800 aspect-square rounded-lg justify-center flex items-center gap-10">
+         
+          <motion.div
+          className="w-1/3 h-1/3 bg-rose-950 rounded-3xl cursor-grab"
+          drag
+          dragConstraints={{
+            top: -125,
+            right: 125,
+            bottom: 125,
+            left: -125,
+          }}
+          dragTransition={{bounceStiffness: 600, bounceDamping:10}}/>
+           </motion.div>
+         
          <motion.div
          variants={gridSquareVariants} 
          className="bg-slate-800 aspect-square rounded-lg justify-center flex items-center gap-10"></motion.div>
